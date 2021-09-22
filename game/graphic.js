@@ -25,7 +25,7 @@ function init()
     noGround = [];
     ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
     
-    player1 = new Player("player1", 0xffff00, new THREE.Vector2(50, 0), 0);
+    player1 = new Player("player1", 0xffff00, new THREE.Vector2(0, 0), 0);
     scene.add(player1.graphic);
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
@@ -48,7 +48,13 @@ function Ground(color, size_x, size_y, nb_tile)
         for (y = minY; y <= maxY; y = y+sizeOfTileY){
 
             color = colors[Math.floor(Math.random()*colors.length)];
-       
+
+            if (x === 0 && y === 0){ // puts a tile under your feet at the start of the game
+                while (0x000000 === color){
+                    color = colors[Math.floor(Math.random()*colors.length)];
+                }
+            }
+
             if (0x000000 != color)
             {
                 tmpGround = new THREE.Mesh(
@@ -62,15 +68,16 @@ function Ground(color, size_x, size_y, nb_tile)
                 noGround.push([x, y]);
         }
     }
+
 }
 
 function Light(name, color, position)
 {
-    pointLight = new THREE.PointLight(color, 50, 350);
+    light = new THREE.DirectionalLight(color, 90);
 
-    pointLight.position.x = position.split(',')[0];
-    pointLight.position.y = position.split(',')[1];
-    pointLight.position.z = position.split(',')[2];
+    light.position.x = position.split(',')[0];
+    light.position.y = position.split(',')[1];
+    light.position.z = position.split(',')[2];
 
-    return pointLight;
+    return light;
 }

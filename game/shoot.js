@@ -63,6 +63,8 @@ function player_collision()
 
     if ( x > WIDTH )
         player1.graphic.position.x -= x - WIDTH;
+    if ( x < 0)
+        player1.graphic.position.x -= x;
     if ( y < 0 )
         player1.graphic.position.y -= y;
     if ( y > HEIGHT )
@@ -90,10 +92,12 @@ function player_falling()
 
         if ((x > tileX)
             && (x < mtileX)
-            && (y > tileY) 
+            && (y > tileY)
             && (y < mtileY))
         {
-           player1.dead();
+            console.log(x, y, tileX, tileY, mtileX, mtileY)
+            player1.dead();
+            break;
         }
     }
 
